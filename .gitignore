@@ -1,1 +1,16 @@
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+__pycache__/
+
+# Coverage reports
 .coverage
+htmlcov/
+
+# Virtual environment directories
+env/
+venv/
+
+# Other common generated files
+.DS_Store
+*.log
