@@ -2,6 +2,13 @@
 
 VERBOSE=0
 
+# Function to log messages
+log() {
+    if [ $VERBOSE -eq 1 ]; then
+        echo "$1"
+    fi
+}
+
 # Function to check for errors
 check_error() {
     if [ $? -ne 0 ]; then
@@ -21,9 +28,9 @@ check_file_exists() {
 # Function to run a command with optional verbosity
 run_command() {
     if [ $VERBOSE -eq 1 ]; then
-        $1
+        eval $1
     else
-        $1 &>/dev/null
+        eval $1 &>/dev/null
     fi
 }
 
@@ -32,32 +39,18 @@ if [ "$1" == "--verbose" ]; then
     VERBOSE=1
 fi
 
-# Check if .coveragerc exists and is properly formatted
-COVERAGERC=".coveragerc"
-check_file_exists $COVERAGERC
+# Check if pytest.ini exists and is properly formatted
+PYTESTINI="pytest.ini"
+check_file_exists $PYTESTINI
 
-# Running tests with coverage
-echo "Running tests with coverage..."
-run_command "coverage run -m unittest discover"
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to run tests with coverage. Ensure that test files are present and correctly configured."
-    exit 1
-fi
-
-# Check if coverage data was collected
-if ! coverage report --skip-covered &>/dev/null; then
-    echo "No tests were run or no data was collected. Please ensure that your test files are present and properly configured."
-    exit 1
-fi
-
-# Generating coverage report
-echo "Generating coverage report..."
-run_command "coverage report"
-check_error "Failed to generate coverage report."
+# Running tests with pytest and coverage
+log "Running tests with pytest and coverage..."
+run_command "pytest --cov=app --cov-report=term-missing"
+check_error "Failed to run tests with pytest and coverage. Ensure that test files are present and correctly configured."
 
 # Generating HTML coverage report
-echo "Generating HTML coverage report..."
-run_command "coverage html"
+log "Generating HTML coverage report..."
+run_command "pytest --cov=app --cov-report=html"
 check_error "Failed to generate HTML coverage report."
 
 # Checking if HTML report exists
@@ -65,8 +58,6 @@ HTML_REPORT="htmlcov/index.html"
 check_file_exists $HTML_REPORT
 
 # Opening HTML coverage report
-echo "Opening HTML coverage report..."
-run_command "open $HTML_REPORT"
-check_error "Failed to open HTML coverage report."
+log "HTML coverage report generated at $HTML_REPORT"
 
 echo "Tests and coverage reports generated successfully."
