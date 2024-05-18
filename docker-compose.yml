@@ -13,5 +13,7 @@ services:
     build: .
     volumes:
       - .:/usr/src/app
+    environment:
+      - PYTHONPATH=/usr/src/app
     command: ./run_tests.sh --verbose
 

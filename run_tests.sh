@@ -39,29 +39,18 @@ if [ "$1" == "--verbose" ]; then
     VERBOSE=1
 fi
 
-# Check if .coveragerc exists and is properly formatted
-COVERAGERC=".coveragerc"
-check_file_exists $COVERAGERC
+# Check if pytest.ini exists and is properly formatted
+PYTESTINI="pytest.ini"
+check_file_exists $PYTESTINI
 
-# Running tests with coverage
-log "Running tests with coverage..."
-run_command "coverage run -m unittest discover"
-check_error "Failed to run tests with coverage. Ensure that test files are present and correctly configured."
-
-# Check if coverage data was collected
-if ! coverage report --skip-covered &>/dev/null; then
-    echo "No tests were run or no data was collected. Please ensure that your test files are present and properly configured."
-    exit 1
-fi
-
-# Generating coverage report
-log "Generating coverage report..."
-run_command "coverage report"
-check_error "Failed to generate coverage report."
+# Running tests with pytest and coverage
+log "Running tests with pytest and coverage..."
+run_command "pytest --cov=app --cov-report=term-missing"
+check_error "Failed to run tests with pytest and coverage. Ensure that test files are present and correctly configured."
 
 # Generating HTML coverage report
 log "Generating HTML coverage report..."
-run_command "coverage html"
+run_command "pytest --cov=app --cov-report=html"
 check_error "Failed to generate HTML coverage report."
 
 # Checking if HTML report exists
