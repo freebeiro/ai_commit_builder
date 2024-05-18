@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+build
+dist
+eggs
+parts
+sdist
+var
+*.swp
+.coverage
+.tox
+.nox

@@ -1,0 +1,7 @@
+Add CI/CD pipeline with GitHub Actions for 100% test coverage
+
+# Detailed Description
+- Added a GitHub Actions workflow to run tests and check for 100% coverage before deploying the app.
+- Updated docker-compose.yml to include separate services for running the app and tests.
+- Ensured Dockerfile can run both the tests and the app.
+- Added a step in the CI/CD pipeline to check for 100% test coverage.
