@@ -6,6 +6,10 @@ import subprocess
 from prompt_toolkit import prompt
 
 class CommitGenerator:
+    def __init__(self):
+        self.diff = None
+        self.commit_message = None
+
     def get_git_diff(self):
         """Retrieves the current Git diff."""
         process = subprocess.run(['git', 'diff'], capture_output=True)
