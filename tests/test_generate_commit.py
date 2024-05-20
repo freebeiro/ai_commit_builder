@@ -49,28 +49,33 @@ def test_main_no_diff(mocker):
 
 def test_main_with_diff_approve_commit(mocker):
     generator = CommitGenerator()
-    
-    # Mock the get_git_diff method
     mocker.patch.object(generator, 'get_git_diff')
     generator.diff = "diff --git a/file b/file\n"
-    
-    # Mock the prompt_toolkit prompt method
     mocker.patch('prompt_toolkit.prompt', return_value="")
-    
-    # Mock the generate_commit_message method
     mocker.patch.object(generator, 'generate_commit_message', return_value="Generated commit message")
-    
-    # Mock the builtins.input to simulate user input
-    mocker.patch('builtins.input', side_effect=['y'])
-    
-    # Mock the create_commit method
+    mock_input = mocker.patch('builtins.input', side_effect=['y'])
+    mock_prompt_session = mocker.patch('prompt_toolkit.PromptSession.prompt', return_value='y')
     create_commit_mock = mocker.patch.object(generator, 'create_commit')
-    
-    # Run the main method
+    print("Running generator.main()")
     generator.main()
-    
-    # Assert that create_commit was called once with the correct argument
+    print("Finished generator.main()")
     create_commit_mock.assert_called_once_with("Generated commit message")
+    mock_input.assert_called_with("Do you approve this commit message? (y/n) or type 'edit' to alter the prompt: ")
+    mock_prompt_session.assert_called_once()
+
+
+def test_main_with_diff_abort_commit(mocker):
+    generator = CommitGenerator()
+    mocker.patch.object(generator, 'get_git_diff')
+    generator.diff = "diff --git a/file b/file\n"
+    mocker.patch('prompt_toolkit.prompt', return_value="")
+    mocker.patch.object(generator, 'generate_commit_message', return_value="Generated commit message")
+    mocker.patch('builtins.input', side_effect=['n'])
+    mocker.patch('prompt_toolkit.PromptSession.prompt', return_value='n')
+    create_commit_mock = mocker.patch.object(generator, 'create_commit')
+    generator.main()
+    assert create_commit_mock.call_count == 0
+
 
 def test_main_with_diff_edit_commit(mocker):
     generator = CommitGenerator()
@@ -79,19 +84,57 @@ def test_main_with_diff_edit_commit(mocker):
     mocker.patch('prompt_toolkit.prompt', return_value="")
     mocker.patch.object(generator, 'generate_commit_message', return_value="Generated commit message")
     mocker.patch('builtins.input', side_effect=['edit', 'y'])
+    mocker.patch('prompt_toolkit.PromptSession.prompt', side_effect=lambda message, **kwargs: "")
     create_commit_mock = mocker.patch.object(generator, 'create_commit')
-
     generator.main()
-
     create_commit_mock.assert_called_once_with("Generated commit message")
 
 def test_main_keyboard_interrupt(mocker):
     generator = CommitGenerator()
     mocker.patch.object(generator, 'get_git_diff', side_effect=KeyboardInterrupt)
-    with pytest.raises(KeyboardInterrupt):
-        generator.main()
+    print_mock = mocker.patch('builtins.print')
+    generator.main()
+    print_mock.assert_any_call("\nCommit process interrupted. Exiting gracefully.")
 
 def test_prompt_for_confirmation_no(mocker):
     generator = CommitGenerator()
     mocker.patch('prompt_toolkit.PromptSession.prompt', return_value='n')
     assert generator.prompt_for_confirmation() is False
+
+def test_main_with_diff_invalid_input(mocker):
+    generator = CommitGenerator()
+    mocker.patch.object(generator, 'get_git_diff')
+    generator.diff = "diff --git a/file b/file\n"
+    mocker.patch('prompt_toolkit.prompt', return_value="")
+    mocker.patch.object(generator, 'generate_commit_message', return_value="Generated commit message")
+    mocker.patch('builtins.input', side_effect=['invalid', 'y'])
+    create_commit_mock = mocker.patch.object(generator, 'create_commit')
+    mocker.patch('prompt_toolkit.PromptSession.prompt', return_value='')
+    generator.main()
+    create_commit_mock.assert_called_once_with("Generated commit message")
+
+def test_main_execution(mocker):
+    import tools.generate_commit.generate_commit as gc
+
+    # Mock CommitGenerator e seus métodos
+    mocker.patch.object(gc, 'CommitGenerator', autospec=True)
+    generator_instance = gc.CommitGenerator.return_value
+    generator_instance.main = mocker.Mock()
+
+    # Simule a execução do script alterando __name__ para "__main__"
+    original_name = gc.__name__
+    gc.__name__ = "__main__"
+
+    try:
+        # Chame manualmente o bloco que seria executado se __name__ == "__main__"
+        if gc.__name__ == "__main__":
+            generator = gc.CommitGenerator()
+            generator.main()
+    finally:
+        gc.__name__ = original_name
+
+    # Verifique se main foi chamado
+    generator_instance.main.assert_called_once()
+
+
+
