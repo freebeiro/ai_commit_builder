@@ -1,9 +1,9 @@
-import requests
 from prompt_toolkit import PromptSession
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 import subprocess
 from prompt_toolkit import prompt
+import requests
 
 class CommitGenerator:
     def get_git_diff(self):
@@ -12,9 +12,23 @@ class CommitGenerator:
         self.diff = process.stdout.decode() if process.returncode == 0 else None
 
     def generate_commit_message(self, diff, extra_context=""):
-        with open('commit_template.txt', 'r') as file:
-            commit_template = file.read()
-        
+        commit_template = """
+        # Commit Title
+        # (50 characters or less)
+        # Detailed Description
+        # (Wrap at 72 characters)
+        #
+        # - What changes were made?
+        #
+        # - Why were these changes made?
+        #
+        # - How do these changes address the problem?
+        #
+        # - Are there any side effects?
+        #
+        # Issue Reference
+        # (Optional: Link to the issue or task this commit addresses)
+        """
         prompt_text = f"Write a new commit message based on the following template and git diff:\n\n{commit_template}\n\nGit Diff:\n{diff}\n\n{extra_context}"
         return self.call_local_llama_model(prompt_text)
 

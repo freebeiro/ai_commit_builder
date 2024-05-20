@@ -45,7 +45,7 @@ PYTESTINI="pytest.ini"
 check_file_exists $PYTESTINI
 
 # Start coverage measurement early
-COV_CMD="coverage run -m pytest --cov=app --cov=tools --cov=tests --cov-report=term-missing tests tools"
+COV_CMD="coverage run -m pytest --cov=app --cov=tools --cov-report=term-missing tests tools"
 log "Running tests with coverage..."
 run_command "$COV_CMD"
 check_error "Failed to run tests with coverage."
@@ -59,5 +59,4 @@ check_error "Failed to generate HTML coverage report."
 HTML_REPORT="htmlcov/index.html"
 check_file_exists $HTML_REPORT
 
-echo "Tests and coverage reports generated successfully."
 echo "Tests and coverage reports generated successfully."
