@@ -1,4 +1,5 @@
 #!/bin/bash
+export PYTHONPATH=$(pwd)
 
 VERBOSE=0
 
@@ -43,21 +44,37 @@ fi
 PYTESTINI="pytest.ini"
 check_file_exists $PYTESTINI
 
-# Running tests with pytest and coverage
-log "Running tests with pytest and coverage..."
-run_command "pytest --cov=app --cov-report=term-missing"
-check_error "Failed to run tests with pytest and coverage. Ensure that test files are present and correctly configured."
+# Running tests with pytest and coverage for the main app
+log "Running tests with pytest and coverage for the main app..."
+run_command "pytest --cov=app --cov-report=term-missing tests tools"
+check_error "Failed to run tests with pytest and coverage for the main app. Ensure that test files are present and correctly configured."
 
-# Generating HTML coverage report
-log "Generating HTML coverage report..."
-run_command "pytest --cov=app --cov-report=html"
-check_error "Failed to generate HTML coverage report."
+# Generating HTML coverage report for the main app
+log "Generating HTML coverage report for the main app..."
+run_command "pytest --cov=app --cov-report=html tests tools"
+check_error "Failed to generate HTML coverage report for the main app."
 
-# Checking if HTML report exists
-HTML_REPORT="htmlcov/index.html"
-check_file_exists $HTML_REPORT
+# Checking if HTML report exists for the main app
+HTML_REPORT_APP="htmlcov/index.html"
+check_file_exists $HTML_REPORT_APP
 
-# Opening HTML coverage report
-log "HTML coverage report generated at $HTML_REPORT"
+# Loop through tools and run tests
+for tool in tools/*; do
+    if [ -d "$tool" ]; then
+        TOOL_NAME=$(basename "$tool")
+        log "Running tests with pytest and coverage for the $TOOL_NAME tool..."
+        run_command "pytest --cov=$tool --cov-report=term-missing"
+        check_error "Failed to run tests with pytest and coverage for the $TOOL_NAME tool. Ensure that test files are present and correctly configured."
+
+        log "Generating HTML coverage report for the $TOOL_NAME tool..."
+        run_command "pytest --cov=$tool --cov-report=html"
+        check_error "Failed to generate HTML coverage report for the $TOOL_NAME tool."
+
+        HTML_REPORT_TOOL="htmlcov/index.html"
+        check_file_exists $HTML_REPORT_TOOL
+
+        log "HTML coverage report for the $TOOL_NAME tool generated at $HTML_REPORT_TOOL"
+    fi
+done
 
 echo "Tests and coverage reports generated successfully."
