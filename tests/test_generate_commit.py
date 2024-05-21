@@ -1,7 +1,10 @@
 import pytest
 from tools.generate_commit.generate_commit import CommitGenerator
-from unittest.mock import mock_open, patch
+from unittest.mock import mock_open, patch, Mock
 import subprocess
+import runpy
+
+
 
 def test_get_git_diff(mocker):
     generator = CommitGenerator()
@@ -115,26 +118,10 @@ def test_main_with_diff_invalid_input(mocker):
 
 def test_main_execution(mocker):
     import tools.generate_commit.generate_commit as gc
-
-    # Mock CommitGenerator e seus métodos
     mocker.patch.object(gc, 'CommitGenerator', autospec=True)
     generator_instance = gc.CommitGenerator.return_value
-    generator_instance.main = mocker.Mock()
-
-    # Simule a execução do script alterando __name__ para "__main__"
-    original_name = gc.__name__
-    gc.__name__ = "__main__"
-
-    try:
-        # Chame manualmente o bloco que seria executado se __name__ == "__main__"
-        if gc.__name__ == "__main__":
-            generator = gc.CommitGenerator()
-            generator.main()
-    finally:
-        gc.__name__ = original_name
-
-    # Verifique se main foi chamado
-    generator_instance.main.assert_called_once()
-
-
+    generator_instance.main = Mock()
+    mocker.patch('prompt_toolkit.prompt', return_value="")
+    mocker.patch('builtins.input', return_value='y')
+    runpy.run_module("tools.generate_commit.generate_commit", run_name="__main__")
 
