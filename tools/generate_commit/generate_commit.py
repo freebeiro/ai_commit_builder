@@ -12,8 +12,9 @@ class CommitGenerator:
 
     def get_git_diff(self):
         """Retrieves the current Git diff."""
-        process = subprocess.run(['git', 'diff'], capture_output=True)
+        process = subprocess.run(['git', 'diff', '--cached'], capture_output=True)
         self.diff = process.stdout.decode() if process.returncode == 0 else None
+        print(self.diff)  # Debugging line
 
     def generate_commit_message(self, diff, extra_context=""):
         with open('commit_template.txt', 'r') as file:
