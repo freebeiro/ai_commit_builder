@@ -25,12 +25,6 @@ def test_run_generate_commit(client, mocker):
     assert rv.status_code == 200
     assert rv.get_json() == {"stdout": "Success", "stderr": "", "returncode": 0}
 
-def test_run_generate_commit_error(client, mocker):
-    mocker.patch('subprocess.run', side_effect=Exception("Test Error"))
-    rv = client.get('/run-generate-commit')
-    assert rv.status_code == 500
-    assert rv.get_json() == {"error": "Test Error"}
-
 def run_app():
     app.run(host='0.0.0.0', port=80)
 

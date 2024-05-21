@@ -12,8 +12,8 @@ jobs:
       uses: docker/setup-buildx-action@v1
     - name: Build and run tests
       run: |
-        docker-compose build
-        docker-compose run tests
+        docker compose build
+        docker compose run tests
     - name: Check coverage
       run: |
         if ! grep -q "100%" htmlcov/index.html; then
@@ -31,5 +31,5 @@ jobs:
       uses: docker/setup-buildx-action@v1
     - name: Build and run app
       run: |
-        docker-compose build
-        docker-compose up -d app
+        docker compose build
+        docker compose up -d app
