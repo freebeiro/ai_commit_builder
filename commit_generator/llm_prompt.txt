@@ -1,0 +1,49 @@
+Based on the information provided git diff , generate a commit message that strictly follows the given template without including any introductory text or headers like "Here is the commit message" or "Commit Message:" or any other way. Just provide the content directly as per the template.
+dont add any introdutory message. 
+Title should be the first thing added strict guidelines from the template forbit it. 
+PLEASE REMEMBER: DONT ADD ANY messages saying 
+"Here is the commit message strictly following the template:" 
+"Here is the generated commit message:"
+"Here is the commit message:"
+"Here is the commit message that strictly follows the given template:"
+"..."
+(begin template)
+Template:
+{template}
+
+Information:
+Change Summary: {change_summary}
+Extra Message: {extra_message}
+
+
+(end template)
+
+
+HEre is an example of the git log of a generated commit with the template
+
+
+
+""
+
+commit ee8a75a8adc7540deb91f3f1ac15d80995203b8f (HEAD -> scratch-without-docker)
+Author: freebeiro <francisco.ribeiro@homeflow.co.uk>
+Date:   Sun Jun 9 22:56:30 2024 +0100
+
+    Here is the generated commit message:
+
+    Added Files has to be a summary in just one line.
+
+    New text added. This change improves readability and makes it easier for users to find specific information.
+
+    Questions:
+    1. What changes were made?
+        Added new text to improve readability.
+    2. Why were these changes made?
+        To make it easier for users to find specific information.
+    3. How do these changes address the problem?
+        The added text helps users quickly locate relevant data.
+    4. Are there any side effects?
+        None expected.
+"""
+
+Looking at this example you see that it takes an introdutory message: in this case is "Here is the generated commit message:" or "Preview of generated commit message:". PLEASE REMOVE IT!!!!!  and dont replace with anything else.
