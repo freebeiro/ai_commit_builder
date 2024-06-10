@@ -23,12 +23,11 @@ class CommitGenerator:
         generated_response = ollama.generate(model=self.model, prompt=prompt)
 
         # Extract the message from the response
-        generated_message = generated_response['response'].strip()
+        generated_message = generated_response['response'].split('####################')[1]
 
         return generated_message
 
     def _preview_commit_message(self, commit_message):
-        print("\nPreview of generated commit message:\n")
         print(commit_message)
 
     def _handle_user_response(self, change_summary, template_path, extra_message, commit_message, prompt_path):

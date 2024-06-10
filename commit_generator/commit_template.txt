@@ -1,27 +1,22 @@
-Hide the titles for "Commit Title" and "Detailed Description".
-ONLY the questions are numbered.
-Do not write the message prompt above in the commit.
-Use the structure below:
-{Commit title} has to be a summary in just one line.
-{Detailed description} has to be a summary of the commit. the descript needs to have at least 3 lines
-there is a line break separating title from description 
-there is a line break separation description from Questions:
+[write me a title for the commit with a maximum of 1 line]
 
-{Commit title} 
-
-{Detailed description}
+[write me a description for the commit]
 
 Questions:
 1. What changes were made?
-    {answer_to_this_question_1}
+    [write me an answer to the question above]
+
 2. Why were these changes made?
-    {answer_to_this_question_2}
+    [write me an answer to the question above]
+
 3. How do these changes address the problem?
-    {answer_to_this_question_3}
+    [write me an answer to the question above]
+
 4. Are there any side effects?
-    {answer_to_this_question_4}
+    [write me an answer to the question above]
 
 Change Summary:
-{change_summary}
+    [insert the change summary here]
 
-Extra Message: {extra_message}
+Extra Message:
+    [insert the extra message here]

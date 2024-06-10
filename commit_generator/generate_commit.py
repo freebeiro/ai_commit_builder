@@ -4,33 +4,37 @@ import os
 import sys
 import subprocess
 
-# Add the parent directory of the script to the system path
+# Add the directory containing this script to the system path
 script_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(script_dir))
+sys.path.insert(0, script_dir)
 
 from git_handler import GitHandler
 from message_editor import MessageEditor
-from commit_tool import CommitGenerator  # Updated import
+from commit_generator import CommitGenerator
 
 def main():
-    # Check if inside a git repository``
+    # Check if inside a git repository
     if not is_git_repo():
         print("This is not a git repository.")
         return
 
     repo_path = os.getcwd()
+    script_path = os.path.dirname(os.path.realpath(__file__))
     project_template_path = os.path.join(repo_path, 'commit_template.txt')
-    assistant_template_path = os.path.join(script_dir, 'commit_template.txt')
+    assistant_template_path = os.path.join(script_path, 'commit_template.txt')
 
     if os.path.isfile(project_template_path):
         template_path = project_template_path
+        print(f"Using project template path: {template_path}")
     elif os.path.isfile(assistant_template_path):
         template_path = assistant_template_path
+        print(f"Using assistant template path: {template_path}")
     else:
         print("No commit template found.")
         return
 
-    prompt_path = os.path.join(script_dir, 'llm_prompt.txt')
+    prompt_path = os.path.join(script_path, 'llm_prompt.txt')
+    print(f"Prompt path: {prompt_path}")
 
     git_handler = GitHandler(repo_path)
     message_editor = MessageEditor()

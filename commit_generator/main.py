@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import os
-from commit_generator.git_handler import GitHandler
-from commit_generator.message_editor import MessageEditor
-from commit_generator.commit_tool import CommitGenerator
+from git_handler import GitHandler
+from message_editor import MessageEditor
+from commit_generator import CommitGenerator
 
 if __name__ == "__main__":
     repo_path = os.getcwd()
