@@ -4,8 +4,7 @@ Pay attention to each break and space from the template.
 The sentences enclosed in `[]` are placeholders where specific content needs to be generated. 
 The sentences enclose in '[]' should not appear.
 The placeholders have explanations inside them to guide what should be written.
-
-
+Add '####################' at the beggining of the commit generated as below.
 
 ####################
 {template}

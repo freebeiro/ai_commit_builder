@@ -28,7 +28,7 @@ class CommitGenerator:
         start_template = template.split("\n")[0]  # Get the first line of the template
         if start_template in generated_message:
             generated_message = generated_message.split(start_template, 1)[-1].strip()
-
+        
         return generated_message
 
     def _preview_commit_message(self, commit_message):
