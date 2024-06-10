@@ -1,6 +1,5 @@
 import os
 import ollama
-import re
 import subprocess
 
 class CommitGenerator:
@@ -23,11 +22,17 @@ class CommitGenerator:
         generated_response = ollama.generate(model=self.model, prompt=prompt)
 
         # Extract the message from the response
-        generated_message = generated_response['response'].split('####################')[1]
+        generated_message = generated_response['response'].strip()
+
+        # Split the response using the beginning of the template to find the main content
+        start_template = template.split("\n")[0]  # Get the first line of the template
+        if start_template in generated_message:
+            generated_message = generated_message.split(start_template, 1)[-1].strip()
 
         return generated_message
 
     def _preview_commit_message(self, commit_message):
+        print("\nPreview of generated commit message:\n")
         print(commit_message)
 
     def _handle_user_response(self, change_summary, template_path, extra_message, commit_message, prompt_path):
@@ -37,6 +42,9 @@ class CommitGenerator:
                 response = input("\nDo you approve, cancel, or want to edit the message? (A/C/E): ")
             except EOFError:
                 print("\nInput interrupted. Cancelling the commit...")
+                break
+            except KeyboardInterrupt:
+                print("\nCommit cancelled.")
                 break
 
             if response.upper() == "A":
@@ -71,6 +79,14 @@ class CommitGenerator:
             return
 
         change_summary = self.git_handler.get_change_summary()
-        extra_message = self.message_editor.capture_multiline_input("Enter an extra message for the commit (Press Ctrl-D to finish):\n")
+        try:
+            extra_message = self.message_editor.capture_multiline_input("Enter an extra message for the commit (Press Ctrl-D to finish):\n")
+        except EOFError:
+            print("\nInput interrupted. Cancelling the commit...")
+            return
+        except KeyboardInterrupt:
+            print("\nCommit cancelled.")
+            return
+
         commit_message = self._generate_commit_message(change_summary, template_path, extra_message, prompt_path)
         self._handle_user_response(change_summary, template_path, extra_message, commit_message, prompt_path)
