@@ -3,7 +3,7 @@ Based on the information provided by git diff , generate a commit message that s
 Guidelines: 
     dont add any introdutory message. 
     Title should be the first thing added strict guidelines from the template forbit it. 
-    PLEASE REMEMBER: DONT ADD ANY messages saying 
+    PLEASE REMEMBER: DONT ADD ANY messages saying: 
         "Here is the commit message strictly following the template:" 
         "Here is the generated commit message:"
         "Here is the commit message:"

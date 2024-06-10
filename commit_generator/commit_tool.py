@@ -12,7 +12,7 @@ class CommitGenerator:
     def _generate_commit_message(self, change_summary, template_path, extra_message, prompt_path):
         with open(template_path, "r") as f:
             template = f.read()
-        
+
         with open(prompt_path, "r") as f:
             llm_prompt = f.read()
 

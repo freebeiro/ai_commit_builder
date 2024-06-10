@@ -1,4 +1,3 @@
-# setup_generate_commit.sh
 #!/bin/bash
 
 # Create a symbolic link
