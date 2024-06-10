@@ -31,7 +31,7 @@ commit ee8a75a8adc7540deb91f3f1ac15d80995203b8f (HEAD -> scratch-without-docker)
 Author: freebeiro <francisco.ribeiro@homeflow.co.uk>
 Date:   Sun Jun 9 22:56:30 2024 +0100
 
-    Here is the generated commit message:
+    Here is the commit message strictly following the template:
 
     Added Files has to be a summary in just one line.
 
