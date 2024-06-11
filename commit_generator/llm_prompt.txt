@@ -1,0 +1,9 @@
+Based on the information provided, in git diff and last 5 git logs, generate a commit message that strictly follows the given template without including any introductory text. 
+Each word should be in the exact place where it is in the template.
+Pay attention to each break and space from the template.
+The sentences enclosed in `[]` are placeholders where specific content needs to be generated. 
+The sentences enclose in '[]' should not appear.
+The placeholders have explanations inside them to guide what should be written.
+
+####################
+{template}

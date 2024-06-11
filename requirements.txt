@@ -1,7 +1,2 @@
-Flask==2.0.1
-werkzeug==2.0.3
-pytest==6.2.5
-pytest-cov==3.0.0
-requests==2.31.0
-pytest-mock==3.14.0
-prompt-toolkit==3.0.43
+ollama
+prompt_toolkit

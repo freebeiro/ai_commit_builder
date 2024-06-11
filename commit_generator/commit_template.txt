@@ -1,0 +1,22 @@
+[write me a title for the commit with a maximum of 1 line]
+
+[write me a description for the commit]
+
+Questions:
+1. What changes were made?
+    [write me an answer to the question above]
+
+2. Why were these changes made?
+    [write me an answer to the question above]
+
+3. How do these changes address the problem?
+    [write me an answer to the question above]
+
+4. Are there any side effects?
+    [write me an answer to the question above]
+
+Change Summary:
+    [insert the change summary here]
+
+Extra Message:
+    [insert the extra message here]
