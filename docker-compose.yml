@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  generate_commit:
+    build: .
+    volumes:
+      - .:/usr/src/app  # Mount the commit builder directory
+      - ${PWD}:/usr/src/project  # Mount the current project directory where the command is run
+    working_dir: /usr/src/project
+    entrypoint: ["sh", "-c", "git config --global --add safe.directory /usr/src/project && generate_commit"]
+    tty: true
