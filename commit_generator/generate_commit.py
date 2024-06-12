@@ -36,10 +36,13 @@ def main():
     prompt_path = os.path.join(script_path, 'llm_prompt.txt')
     print(f"Prompt path: {prompt_path}")
 
+    git_log = os.getenv('GIT_LOG')
+    git_diff = os.getenv('GIT_DIFF')
+
     git_handler = GitHandler(repo_path)
     message_editor = MessageEditor()
 
-    generator = CommitGenerator(git_handler, message_editor)
+    generator = CommitGenerator(git_handler, message_editor, git_log=git_log, git_diff=git_diff)
     generator.run(template_path=template_path, prompt_path=prompt_path)
 
 def is_git_repo():
