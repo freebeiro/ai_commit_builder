@@ -29,9 +29,6 @@ COPY . .
 RUN chmod +x commit_generator/generate_commit.py
 RUN ln -sf /usr/src/app/commit_generator/generate_commit.py /usr/local/bin/generate_commit
 
-# Serving Ollama
-#RUN ollama serve
-
 # Copy entrypoint script
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
