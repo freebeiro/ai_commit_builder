@@ -19,6 +19,17 @@ print_status() {
     fi
 }
 
+# Prompt the user for Git username and email
+echo "Please enter your Git username (this is necessary for committing changes):"
+read GIT_USER_NAME
+
+echo "Please enter your Git email (this is necessary for committing changes):"
+read GIT_USER_EMAIL
+
+# Create a .env file with the provided username and email
+echo -e "GIT_USER_NAME=${GIT_USER_NAME}\nGIT_USER_EMAIL=${GIT_USER_EMAIL}" > .env
+print_status "Creating .env file with Git configuration"
+
 # Store the path to ai_commit_builder in a config file
 CONFIG_FILE="$HOME/.generate_commit_config"
 echo "COMMIT_GENERATOR_DIR=$(pwd)" > "$CONFIG_FILE"
@@ -26,11 +37,11 @@ print_status "Storing configuration"
 
 # Create a symbolic link
 echo "Creating symbolic link for generate_commit_script.sh..."
-sudo ln -sf $(pwd)/$COMMIT_GENERATOR_DIR/generate_commit_script.sh /usr/local/bin/generate_commit_script
+sudo ln -sf $(pwd)/$COMMIT_GENERATOR_DIR/generate_commit_script.sh /usr/local/bin/generate_commit
 print_status "Creating symbolic link"
 
 # Check if the symlink was created successfully
-if [ -L /usr/local/bin/generate_commit_script ]; then
+if [ -L /usr/local/bin/generate_commit ]; then
     echo "Symbolic link created: OK"
 else
     echo "Symbolic link creation failed: FAILED"
@@ -39,7 +50,7 @@ fi
 
 # Make the symbolic link executable
 echo "Making symbolic link executable..."
-sudo chmod +x /usr/local/bin/generate_commit_script
+sudo chmod +x /usr/local/bin/generate_commit
 print_status "Making symbolic link executable"
 
 # Check if virtual environment directory exists
@@ -65,4 +76,4 @@ echo "Setup complete. Virtual environment is ready and dependencies are installe
 
 # Optional: Notify the user how to run the script
 echo "To run the generate_commit script, use:"
-echo "source venv/bin/activate && generate_commit"
+echo "generate_commit"
