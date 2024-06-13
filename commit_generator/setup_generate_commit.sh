@@ -19,13 +19,18 @@ print_status() {
     fi
 }
 
+# Store the path to ai_commit_builder in a config file
+CONFIG_FILE="$HOME/.generate_commit_config"
+echo "COMMIT_GENERATOR_DIR=$(pwd)" > "$CONFIG_FILE"
+print_status "Storing configuration"
+
 # Create a symbolic link
-echo "Creating symbolic link for generate_commit.py..."
-sudo ln -sf $(pwd)/$COMMIT_GENERATOR_DIR/generate_commit.py /usr/local/bin/generate_commit
+echo "Creating symbolic link for generate_commit_script.sh..."
+sudo ln -sf $(pwd)/$COMMIT_GENERATOR_DIR/generate_commit_script.sh /usr/local/bin/generate_commit_script
 print_status "Creating symbolic link"
 
 # Check if the symlink was created successfully
-if [ -L /usr/local/bin/generate_commit ]; then
+if [ -L /usr/local/bin/generate_commit_script ]; then
     echo "Symbolic link created: OK"
 else
     echo "Symbolic link creation failed: FAILED"
@@ -34,7 +39,7 @@ fi
 
 # Make the symbolic link executable
 echo "Making symbolic link executable..."
-sudo chmod +x /usr/local/bin/generate_commit
+sudo chmod +x /usr/local/bin/generate_commit_script
 print_status "Making symbolic link executable"
 
 # Check if virtual environment directory exists

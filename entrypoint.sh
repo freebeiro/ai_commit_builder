@@ -1,5 +1,6 @@
 #!/bin/sh
 echo "RUNNING ENTRYPOINT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
 # Start Ollama service
 echo "Starting Ollama service..."
 ollama serve &
@@ -29,6 +30,10 @@ if [ $retry -ge $max_retries ]; then
 fi
 
 echo "Ollama service is ready."
+
+# Set git config
+git config --global user.name "$GIT_USER_NAME"
+git config --global user.email "$GIT_USER_EMAIL"
 
 # Run the generate_commit script
 git config --global --add safe.directory /usr/src/project

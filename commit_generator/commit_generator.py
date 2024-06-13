@@ -1,5 +1,7 @@
 import os
+import subprocess
 import ollama
+
 
 class CommitGenerator:
     def __init__(self, git_handler, message_editor, model="llama3:latest", git_log=None, git_diff=None):
