@@ -65,7 +65,8 @@ AI Commit Builder automates the process of writing commit messages by analyzing 
     ```
 
     This command will:
-    - Fetch the latest Git logs and diffs.
+    - Fetch the latest Git logs and Git diffs.
+    - Will use a template format you provide or use the default template.
     - Use the AI model to generate a commit message based on the changes.
     - Provide a prompt to review and edit the generated message before committing.
 
