@@ -1,12 +1,15 @@
 import os
-import ollama
 import subprocess
+import ollama
+
 
 class CommitGenerator:
-    def __init__(self, git_handler, message_editor, model="llama3:latest"):
+    def __init__(self, git_handler, message_editor, model="llama3:latest", git_log=None, git_diff=None):
         self.git_handler = git_handler
         self.message_editor = message_editor
         self.model = model
+        self.git_log = git_log
+        self.git_diff = git_diff
 
     def _generate_commit_message(self, change_summary, template_path, extra_message, prompt_path):
         with open(template_path, "r") as f:
@@ -16,7 +19,13 @@ class CommitGenerator:
             llm_prompt = f.read()
 
         # Fill in the placeholders in the LLM prompt
-        prompt = llm_prompt.format(template=template, change_summary=change_summary, extra_message=extra_message)
+        prompt = llm_prompt.format(
+            template=template, 
+            change_summary=change_summary, 
+            extra_message=extra_message,
+            git_log=self.git_log,
+            git_diff=self.git_diff
+        )
 
         # Call ollama.generate with the filled prompt
         generated_response = ollama.generate(model=self.model, prompt=prompt)
@@ -29,7 +38,7 @@ class CommitGenerator:
         if start_template in generated_message:
             generated_message = generated_message.split(start_template, 1)[-1].strip()
 
-        return generated_response['response'].split('####################')[1]
+        return generated_message
 
     def _preview_commit_message(self, commit_message):
         print("\nPreview of generated commit message:\n")

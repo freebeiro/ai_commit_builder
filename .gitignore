@@ -16,3 +16,4 @@ venv/
 *.log
 .history/
 .coverage.*
+.env
