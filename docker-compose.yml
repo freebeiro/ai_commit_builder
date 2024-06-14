@@ -1,13 +1,10 @@
-version: '3.8'
-
 services:
   generate_commit:
     build: .
     environment:
       - GIT_LOG
       - GIT_DIFF
-      - GIT_USER_NAME=${GIT_USER_NAME}
-      - GIT_USER_EMAIL=${GIT_USER_EMAIL}
+      - VERBOSE=${VERBOSE:-false}
     volumes:
       - .:/usr/src/app  # Mount the commit builder directory
       - ${PWD}:/usr/src/project  # Mount the current project directory where the command is run

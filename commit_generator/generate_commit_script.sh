@@ -34,5 +34,11 @@ GIT_DIFF=$(git diff)
 export GIT_LOG
 export GIT_DIFF
 
+# Check for verbose flag
+VERBOSE_FLAG="false"
+if [ "$1" = "-verbose" ]; then
+    VERBOSE_FLAG="true"
+fi
+
 # Run the Docker command with the fetched values
-docker compose -f "$COMMIT_GENERATOR_DIR/docker-compose.yml" run --rm -e GIT_LOG="$GIT_LOG" -e GIT_DIFF="$GIT_DIFF" generate_commit
+docker compose -f "$COMMIT_GENERATOR_DIR/docker-compose.yml" run --rm -e GIT_LOG="$GIT_LOG" -e GIT_DIFF="$GIT_DIFF" -e VERBOSE="$VERBOSE_FLAG" generate_commit
